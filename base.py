@@ -53,14 +53,14 @@ def verificar():
 
 	if usuario == "profesor":
 		if clave == "profesor":
-			conexion1()
+			conexion_exitosa()
 	else:
-		conexion1_fallida()
+		conexion_fallida()
 
 
 
 
-def conexion1():
+def conexion_exitosa():
     global conexion
     conexion = Toplevel(ventana_profesor)
     conexion.title("Exito")
@@ -68,7 +68,7 @@ def conexion1():
     Label(conexion, text="Login finalizado con exito").pack()
     Button(conexion, text="Volver",command=salir_conexion1).pack()
 
-def conexion1_fallida():
+def conexion_fallida():
     global conexionf
     conexionf = Toplevel(ventana_profesor)
     conexionf.title("ERROR")
