@@ -3,7 +3,7 @@ from tkinter import *
 import os
 
 
-conn=pymysql.connect(host='localhost',port=3306, user='root', passwd='', db='usuarios')
+conn=pymysql.connect(host='localhost',port=3306, user='root', passwd='', db='calificaciones')
 cur=conn.cursor()
 
 def inicio():
