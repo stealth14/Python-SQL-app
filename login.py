@@ -11,7 +11,7 @@ def inicio():
     ventana=Tk()
     color="white"
     ventana.geometry("300x100")
-    ventana.title("REGISTRO")
+    ventana.title("Autenticación")
     ventana.config(bg="WHITE")
     Button(ventana,text="Acceder como profesor", height=2, width=30, bg=color,command=login_profesor).pack()
     Label(text="").pack()    
@@ -53,13 +53,13 @@ def verificar_profesor():
     profesor_clave.delete(0,END)
     lista_nombre=[]
     lista_clave=[]
-    buscar_usuario="SELECT nombre FROM nombres"
+    buscar_usuario="SELECT nombre_profesor FROM profesor"
     cur.execute(buscar_usuario)
     lista_profesor=cur.fetchall()    
     for row in lista_profesor:
         lista_nombre.append(str(row[0]))
     if usuario in lista_nombre:
-            v_clave="SELECT clave FROM nombres"
+            v_clave="SELECT contrasenia_profesor FROM profesor"
             cur.execute(v_clave)
             claves=cur.fetchall()
             for raw in claves:
@@ -104,13 +104,13 @@ def verificar_estudiante():
     estudiante_clave.delete(0,END)
     lista_nombre=[]
     lista_clave=[]
-    buscar_usuario="SELECT nombre FROM nombres_alumnos"
+    buscar_usuario="SELECT nombre_estudiante FROM estudiantes"
     cur.execute(buscar_usuario)
     lista_estudiante=cur.fetchall()    
     for row in lista_estudiante:
         lista_nombre.append(str(row[0]))
     if usuario in lista_nombre:
-            v_clave="SELECT clave FROM nombres_alumnos"
+            v_clave="SELECT contrasenia_estudiantes FROM estudiantes"
             cur.execute(v_clave)
             claves=cur.fetchall()
             for raw in claves:
