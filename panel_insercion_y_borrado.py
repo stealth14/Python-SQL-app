@@ -27,7 +27,7 @@ def query(script):
 
     tabla=cur.fetchall()
 
-    resultados=tabulate(tabla, tablefmt='grid')
+    resultados=tabulate(tabla, tablefmt='simple')
 
     cur.close()
 
@@ -82,49 +82,50 @@ e.grid(row=9,column=2)
 
 #gestionar estado de checkbuttons 
 
-def insertar_nota():
+def update_nota():
     global bool_nota1,bool_nota2,bool_nota3
     global var_codigo
     global var_nota
 
     if   bool_nota1.get() ==1:
         print('nota1 insertada')
-        query("UPDATE notas SET nota1 = ' "+var_nota.get()+" ' WHERE codigo_unicoFK = ' "+var_codigo.get())
+        query("UPDATE notas SET nota1 = ' "+var_nota.get()+"' WHERE codigo_unicoFK = "+var_codigo.get())
 
 
     if   bool_nota2.get() ==1:
-        query( "UPDATE notas SET nota2 = '"+var_nota.get()+"' WHERE codigo_unicoFK = '"+var_codigo.get())
+        query( "UPDATE notas SET nota2 = '"+var_nota.get()+"' WHERE codigo_unicoFK = "+var_codigo.get())
         print('nota2 insertada')
 
 
     if   bool_nota3.get() ==1:
-        query( "UPDATE notas SET nota3= '"+var_nota.get()+"' WHERE codigo_unicoFK = '"+var_codigo.get() )
+        query( "UPDATE notas SET nota3= '"+var_nota.get()+"' WHERE codigo_unicoFK = '"+var_codigo.get())
         print('nota3 insertada')
 
     limpiar_campos()
 
+def borrar_registro():
+    #borrando de la tabla notas
+    query("DELETE FROM notas WHERE codigo_unicoFK ="+var_codigo.get())
+    #borrando de la tabla estudiantes
+    query("DELETE FROM estudiantes WHERE codigo_unicoPK ="+var_codigo.get())
 
-def borrar_nota():
-    global bool_nota1,bool_nota2,bool_nota3
-    
-    if   bool_nota1.get() ==1:
-        print('nota1 borrada')
-        mostrar_resultado(query())
-
-    if   bool_nota2.get() ==1:
-        print('nota2 borrada')
-
-    if   bool_nota3.get() ==1:
-        print('nota3 borrada')
+    print('registro borrado')
+    limpiar_campos()
 
 def mostrar_resultado(resultados):
     global var_resultados
 
     var_resultados.set(resultados)
     print('registro encontrado')
+
 def limpiar_campos():
     var_codigo=" "
     var_nota=" "
+
+def estado_registros():
+    script_estado_actual="SELECT codigo_unicoPK,nombre_estudiante,apellido_estudiante,nota1,nota2,nota3,promedio FROM estudiantes,notas WHERE codigo_unicoPK=codigo_unicoFK"
+
+    mostrar_resultado("Estado actual\n"+query(script_estado_actual))
 #controles
 
 var_codigo=StringVar()
@@ -141,8 +142,8 @@ nota=Entry(master,textvariable=var_nota)
 nota.grid(row=3,column=1)
 
 #boton insertar registro 
-insert=Button(master,text="Insertar Nota", command=insertar_nota)
-insert.grid(row=2,column=2)
+insert=Button(master,text="Cambiar Nota", command=update_nota)
+insert.grid(row=1,column=2)
 
 #resultados
 Label(master,text='Vista previa').grid(row=4,column=1)
@@ -152,8 +153,8 @@ lbl_resultados.grid(row=5,column=1)
 
 
 #boton borrar registro
-delete=Button(master,text="Borrar Nota", command=borrar_nota)
-delete.grid(row=7,column=1)
+delete=Button(master,text="Borrar Registro", command=borrar_registro)
+delete.grid(row=3,column=2)
 
 # boton peores 10
 btn_peores10=Button(master,text="Peores 5", command=peores)
@@ -170,6 +171,10 @@ btn_promedios_individuales.grid(row=11,column=0)
 # boton total estudiantes
 btn_promedios_individuales=Button(master,text="Total estudiantes", command=total_estudiantes)
 btn_promedios_individuales.grid(row=11,column=1)
+
+# boton total estudiantes
+btn_promedios_individuales=Button(master,text="Estado actual", command=estado_registros)
+btn_promedios_individuales.grid(row=1,column=0)
 
 #borrar los campos cuando se deba recoger un dato en especifico como por ejemplo el nombre para usarlo en una consulta
 
