@@ -25,13 +25,12 @@ def query(script,variable):
 
 
 def extraer_celda(tabla,columna):
-    try:
-        fila=tabla[0]
-        celda=fila[columna]
-        return celda
-    except:
-        print('NOMBRE O CONTRASENA INCORRECTOS')
-
+        if tabla:
+            fila=tabla[0]
+            celda=fila[columna]
+            return celda
+        else :
+            return 'kityf'
 def verificar():
     global var_nombre,var_clave,conn,cur
     usuario_ingresado=var_nombre.get()
@@ -55,6 +54,7 @@ def verificar():
     else:
         conexion_fallida()
         print('Usuario o clave incorrectos')
+
 
 
 def verificar_profe():
@@ -87,12 +87,7 @@ def limpiar_campos():
 
 
 def conexion_fallida():
-    global conexionf
-    conexionf = Toplevel(ventana_profesor)
-    conexionf.title("ERROR")
-    conexionf.geometry("300x50")
-    Label(conexionf, text="Usuario o contraseña incorrectos").pack()
-    Button(conexionf, text="Aceptar", command=salir_conexion1_fallida).pack()
+    pass
 
 def salir_conexion1_fallida():
     conexionf.destroy()
